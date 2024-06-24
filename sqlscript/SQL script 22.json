@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 22",
+	"properties": {
+		"content": {
+			"query": "SELECT TOP (100) [CYCLE_ID]\n,[CYCLE]\n,[MC_CATEGORY]\n,[MC_SCHEMA]\n,[MC_TABLE]\n,[MC_COLUMN]\n,[MC_DATA_TYPE]\n,[MC_DATA_LENGTH]\n,[MC_PII_LEVEL]\n,[MC_PATTERN_TYPE]\n,[MC_PARAMETER]\n,[MC_LOOKUP]\n,[ML_LOG_O_YEAR]\n,[ML_LOG_O_MONTH]\n,[ML_LOG_O_DAY]\n,[ML_LOG_O_HOUR]\n,[ML_LOG_O_MIN]\n,[ML_LOG_APPLICATION_NAME]\n,[ML_LOG_SCHEMA]\n,[ML_LOG_TABLE_NAME]\n,[ML_LOG_ROW_COUNT]\n,[ML_LOG_DISTINCT_ROW_COUNT]\n,[ML_LOG_COLUMN_NAME]\n,[ML_LOG_STATUS]\n,[ML_LOG_START_TIME]\n,[ML_LOG_END_TIME]\n,[ML_LOG_DURATION_IN_MINS]\n,[ML_LOG_DURATION_IN_SECS]\n FROM [enov8_silver].[v_MASKING_VALIDATION]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

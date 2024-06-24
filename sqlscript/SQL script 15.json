@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 15",
+	"properties": {
+		"content": {
+			"query": "DROP TABLE [dbo].[PIPELINE_CTL]\nGO\n\nSET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE TABLE [dbo].[PIPELINE_CTL]\n( \n\t[RUN_ID] [int]  NULL,\n\t[STAGE] [varchar](300)  NULL,\n\t[CYCLE_ID] [bigint]  NULL,\n\t[APPLICATION_NAME] [varchar](200)  NULL,\n\t[PROCESSED_FOLDER_NAME] [varchar](900)  NULL,\n\t[STATUS] [varchar](300)  NULL,\n\t[AUDIT_MESSAGE] [varchar](300)  NULL,\n\t[RUN_START_DTTM] [datetime2](7)  NULL,\n\t[RUN_END_DTTM] [datetime2](7)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = HASH ( [RUN_ID] ),\n\tCLUSTERED COLUMNSTORE INDEX\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

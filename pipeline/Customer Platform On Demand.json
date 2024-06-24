@@ -1,0 +1,272 @@
+{
+	"name": "Customer Platform On Demand",
+	"properties": {
+		"activities": [
+			{
+				"name": "Extract list of Application folder",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set CYCLE_ID and RUN_ID",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Extract list of Application folder",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "CYCLE_ID",
+					"value": "SELECT MAX(CYCLE_ID) FROM CTL.PIPELINE_CTL"
+				}
+			},
+			{
+				"name": "For Each Customer Platform Application",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "MASTER JOB CONTROL START",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Customer Platform Extract and Modeling_copy1').output",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Customer Platform Extract and Modeling_copy1",
+							"type": "SynapseNotebook",
+							"dependsOn": [
+								{
+									"activity": "JOB CONTROL START",
+									"dependencyConditions": [
+										"Completed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebook": {
+									"referenceName": "Extract_Pipeline_Customer_Platform",
+									"type": "NotebookReference"
+								},
+								"snapshot": true,
+								"sparkPool": {
+									"referenceName": "synapseenov8",
+									"type": "BigDataPoolReference"
+								},
+								"executorSize": "Small",
+								"driverSize": "Small"
+							}
+						},
+						{
+							"name": "JOB CONTROL COMPLETE",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Customer Platform Extract and Modeling_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "sp_ctl_log_control"
+							},
+							"linkedServiceName": {
+								"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "JOB CONTROL FAILURE",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Customer Platform Extract and Modeling_copy1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "sp_ctl_log_control"
+							},
+							"linkedServiceName": {
+								"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "JOB CONTROL START",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "sp_ctl_log_control"
+							},
+							"linkedServiceName": {
+								"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Fail1",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "For Each Customer Platform Application",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": {
+						"value": "@activity('Customer Platform Extract and Modeling_copy1').output.pipelineReturnValue",
+						"type": "Expression"
+					},
+					"errorCode": {
+						"value": "@activity('JOB CONTROL FAILURE').output",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "MASTER JOB CONTROL COMPLETE",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "For Each Customer Platform Application",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "sp_master_job_control"
+				},
+				"linkedServiceName": {
+					"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "MASTER JOB CONTROL START",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Set CYCLE_ID and RUN_ID",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "sp_master_job_control"
+				},
+				"linkedServiceName": {
+					"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"variables": {
+			"CYCLE_ID": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-06-20T02:25:18Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

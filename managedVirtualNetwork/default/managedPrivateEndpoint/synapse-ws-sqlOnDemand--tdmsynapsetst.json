@@ -1,0 +1,10 @@
+{
+	"name": "synapse-ws-sqlOnDemand--tdmsynapsetst",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/e5eee262-fe88-4823-bfbb-8bfd215f2eca/resourceGroups/tdm_resourcegrp/providers/Microsoft.Synapse/workspaces/tdmsynapsetst",
+		"groupId": "sqlOnDemand",
+		"fqdns": [
+			"tdmsynapsetst-ondemand.ca0a055f-6e8a-44fe-acb9-379741fabb90.sql.azuresynapse.net"
+		]
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"name": "sqlkeyvault",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://azuresqlenov8database.vault.azure.net/"
+		}
+	}
+}

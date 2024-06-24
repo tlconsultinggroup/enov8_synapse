@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 21",
+	"properties": {
+		"content": {
+			"query": "\n\n\nALTER TABLE [enov8_silver].[MASKING_VALIDATION]\nALTER COLUMN [error] VARCHAR(4000) NULL;\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

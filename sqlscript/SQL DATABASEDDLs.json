@@ -1,0 +1,17 @@
+{
+	"name": "SQL DATABASEDDLs",
+	"properties": {
+		"content": {
+			"query": "drop table dbo.log;\n\n\nCREATE TABLE [dbo].[log]\n(\n    cycle  VARCHAR(400),\n    TABLE_SCHEMA  VARCHAR(400),\n    TABLE_NAME  VARCHAR(400),\n    row_count  VARCHAR(400),\n    distinct_row_count  VARCHAR(400),\n    COLUMN_NAME  VARCHAR(400),\n    status  VARCHAR(400),\n    start_time  VARCHAR(400),\n    end_time  VARCHAR(400),\n    duration_in_secs   VARCHAR(400),\n    duration_in_mins  VARCHAR(400),\n    error  VARCHAR(400),\n    line_number  VARCHAR(400),\n    ML_LOG_O_YEAR  VARCHAR(400),\n    ML_LOG_O_MONTH  VARCHAR(400),\n    ML_LOG_O_DAY  VARCHAR(400),\n    ML_LOG_O_HOUR  VARCHAR(400),\n    ML_LOG_O_MIN  VARCHAR(400),\n    ML_LOG_APPLICATION_NAME  VARCHAR(400) ,\n    CYCLE_ID VARCHAR(300)\n)\n\n\nDROP TABLE  dbo.config;\n\nCREATE TABLE [dbo].[config] (\n    Category VARCHAR(300),\n    TABLE_SCHEMA VARCHAR(300),\n    TABLE_NAME VARCHAR(300),\n    COLUMN_NAME VARCHAR(300),\n    Data_Type VARCHAR(300),\n    Data_Length VARCHAR(300),\n    PII_Level VARCHAR(300),\n    Pattern_Type VARCHAR(300),\n    Pattern VARCHAR(300),\n    Parameter_CONFIG VARCHAR(300),\n    Lookup VARCHAR(300),\n    SOURCE_OF_CONFIG VARCHAR(300),\n    CYCLE_ID VARCHAR(300)\n)\n\n\n\nTRUNCATE TABLE dbo.config ;\nTRUNCATE TABLE dbo.log ;\n\nselect * from dbo.config\nselect * from dbo.log\norder by CYCLE_ID DESC\n\n\n\n\n\n\n\nCREATE TABLE ctl.PIPELINE_CTL (\n    RUN_ID BIGINT IDENTITY(1,1),\n    STAGE VARCHAR(300),\n    CYCLE_ID BIGINT,\n    PROCESSED_FOLDER_NAME VARCHAR(300),\n    APPLICATION_NAME VARCHAR(200),\n    STATUS VARCHAR(300),\n    RUN_START_DTTM TIMESTAMP,\n    RUN_END_DTTM TIMESTAMP\n)\n\n\n\n\n\n\nselect * from \n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 23",
+	"properties": {
+		"content": {
+			"query": "SELECT TOP (100) [cycle]\n,[TABLE_SCHEMA]\n,[TABLE_NAME]\n,[row_count]\n,[distinct_row_count]\n,[COLUMN_NAME]\n,[status]\n,[start_time]\n,[end_time]\n,[duration_in_secs]\n,[duration_in_mins]\n,[error]\n,[line_number]\n,[ML_LOG_O_YEAR]\n,[ML_LOG_O_MONTH]\n,[ML_LOG_O_DAY]\n,[ML_LOG_O_HOUR]\n,[ML_LOG_O_MIN]\n,[ML_LOG_APPLICATION_NAME]\n,[CYCLE_ID]\n FROM [dbo].[log]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

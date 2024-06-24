@@ -1,0 +1,203 @@
+{
+	"name": "Landing file cleanup",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get the list of processed folder",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Master file control audit start",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Landing Cleanup').output.pipelineReturnValue",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Landing Cleanup",
+							"type": "SynapseNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebook": {
+									"referenceName": "Landing Cleanup",
+									"type": "NotebookReference"
+								},
+								"snapshot": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Master file control audit start",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Get the list of processed folder",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "sp_master_control"
+				},
+				"linkedServiceName": {
+					"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Master file control audit completed",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "sp_master_control"
+				},
+				"linkedServiceName": {
+					"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Master file control audit failure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "sp_master_control"
+				},
+				"linkedServiceName": {
+					"referenceName": "tdmsynapsetst-WorkspaceDefaultSqlServer",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Send failure message to the Teams Channel",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Master file control audit failure",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": {
+						"value": "@activity('Get the list of processed folder').output",
+						"type": "Expression"
+					},
+					"connectVia": {
+						"referenceName": "AutoResolveIntegrationRuntime",
+						"type": "IntegrationRuntimeReference"
+					},
+					"body": {
+						"value": "@activity('Get the list of processed folder').output",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"CYCLE_ID": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-06-20T02:25:25Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}

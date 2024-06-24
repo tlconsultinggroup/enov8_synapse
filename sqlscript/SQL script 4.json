@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 4",
+	"properties": {
+		"content": {
+			"query": "CREATE TABLE [dbo].[CONFIG]\n(\n [Category]  VARCHAR ,\n [Schema]  VARCHAR ,\n [Table]  VARCHAR ,\n [Column]  VARCHAR ,\n [Data Typ]  VARCHAR ,\n [Data Lengt]  VARCHAR ,\n [PII Leve]  VARCHAR ,\n [Pattern Typ]  VARCHAR ,\n [Pattern]  VARCHAR ,\n [Parameter]  VARCHAR ,\n [Lookup]  VARCHAR \n)\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

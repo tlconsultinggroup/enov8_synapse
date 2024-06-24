@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 20",
+	"properties": {
+		"content": {
+			"query": "SET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE TABLE [dbo].[config]\n( \n\t[Category] [varchar](300)  NULL,\n\t[TABLE_SCHEMA] [varchar](300)  NULL,\n\t[TABLE_NAME] [varchar](300)  NULL,\n\t[COLUMN_NAME] [varchar](300)  NULL,\n\t[Data_Type] [varchar](300)  NULL,\n\t[Data_Length] [varchar](300)  NULL,\n\t[PII_Level] [varchar](300)  NULL,\n\t[Pattern_Type] [varchar](300)  NULL,\n\t[Pattern] [varchar](300)  NULL,\n\t[Parameter_CONFIG] [varchar](300)  NULL,\n\t[Lookup] [varchar](300)  NULL,\n\t[SOURCE_OF_CONFIG] [varchar](300)  NULL,\n\t[CYCLE_ID] [varchar](300)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = ROUND_ROBIN,\n\tCLUSTERED COLUMNSTORE INDEX\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

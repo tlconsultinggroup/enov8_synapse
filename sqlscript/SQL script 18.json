@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 18",
+	"properties": {
+		"content": {
+			"query": "SELECT  *\n FROM [dbo].[log]\n where 1=1\n and CYCLE_ID = 275",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

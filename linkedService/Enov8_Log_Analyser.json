@@ -1,0 +1,12 @@
+{
+	"name": "Enov8_Log_Analyser",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "PowerBIWorkspace",
+		"typeProperties": {
+			"workspaceID": "enov8",
+			"tenantID": "1a35b43f-3f7e-4bb9-be3c-9ff6b2464e1a"
+		}
+	}
+}

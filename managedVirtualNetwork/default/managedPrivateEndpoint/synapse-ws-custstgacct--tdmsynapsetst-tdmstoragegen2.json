@@ -1,0 +1,10 @@
+{
+	"name": "synapse-ws-custstgacct--tdmsynapsetst-tdmstoragegen2",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/e5eee262-fe88-4823-bfbb-8bfd215f2eca/resourceGroups/tdm_resourcegrp/providers/Microsoft.Storage/storageAccounts/tdmstoragegen2",
+		"groupId": "dfs",
+		"fqdns": [
+			"tdmstoragegen2.dfs.core.windows.net"
+		]
+	}
+}

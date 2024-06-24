@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 3",
+	"properties": {
+		"content": {
+			"query": "CREATE TABLE [dbo].[LOG]\n(\n cycle INT ,\n [schema] VARCHAR ,\n [table] VARCHAR ,\n [row_count] VARCHAR ,\n [distinct_row_count] VARCHAR ,\n [column] VARCHAR ,\n [status] VARCHAR ,\n [start_time] DATETIME2 ,\n [end_time] DATETIME2 ,\n [duration(s)] VARCHAR ,\n [duration(min)] VARCHAR ,\n [error] VARCHAR ,\n [line_number] INT ,\n [LOG_O_YEAR] INT ,\n [LOG_O_MONTH] INT ,\n [LOG_O_DAY] INT ,\n [LOG_O_HOUR] INT ,\n [LOG_O_MIN] INT ,\n [LOG_APPLICATION_NAME] VARCHAR \n)\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "tdmsynapsesqldedicated",
+				"poolName": "tdmsynapsesqldedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

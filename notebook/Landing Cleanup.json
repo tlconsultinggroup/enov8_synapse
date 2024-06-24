@@ -1,0 +1,69 @@
+{
+	"name": "Landing Cleanup",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "synapseenov8",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "47b4adb0-55d7-4866-8f86-708377a8f3ec"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/e5eee262-fe88-4823-bfbb-8bfd215f2eca/resourceGroups/tdm_resourcegrp/providers/Microsoft.Synapse/workspaces/tdmsynapsetst/bigDataPools/synapseenov8",
+				"name": "synapseenov8",
+				"type": "Spark",
+				"endpoint": "https://tdmsynapsetst.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/synapseenov8",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"# Set the Spark configurations\r\n",
+					"spark.conf.set(\"fs.azure.account.auth.type.tdmstoragegen2.dfs.core.windows.net\", \"OAuth\")\r\n",
+					"spark.conf.set(\"fs.azure.account.oauth.provider.type.tdmstoragegen2.dfs.core.windows.net\", \"org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider\")\r\n",
+					"spark.conf.set(\"fs.azure.account.oauth2.client.id.tdmstoragegen2.dfs.core.windows.net\", \"62c3a03c-5a01-4f3e-a226-f9f9aa27fa02\")\r\n",
+					"spark.conf.set(\"fs.azure.account.oauth2.client.secret.tdmstoragegen2.dfs.core.windows.net\", \"TDh8Q~J96UD2WuXmsmthmd0.P0OdIWQjS6e56dsX\")\r\n",
+					"spark.conf.set(\"fs.azure.account.oauth2.client.endpoint.tdmstoragegen2.dfs.core.windows.net\", \"https://login.microsoftonline.com/1a35b43f-3f7e-4bb9-be3c-9ff6b2464e1a/oauth2/token\")\r\n",
+					"\r\n",
+					"\r\n",
+					"mssparkutils.fs.rm(f'abfss://tdmfilesystem@tdmstoragegen2.dfs.core.windows.net/archived/', True)"
+				],
+				"execution_count": 7
+			}
+		]
+	}
+}
